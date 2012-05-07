@@ -33,7 +33,20 @@ class Module_Download extends Module {
   }
 
   public function install() {
-//    $this->dbforge->drop_table('blog_categories');
+    $this->dbforge->drop_table('download_stats');
+    
+    
+    $tables = array(
+        'download_stats' => array(
+          'id' => array('type' => 'INT', 'constraint' => 11, 'auto_increment' => true, 'primary' => true),
+          'download_ip' => array('type' => 'VARCHAR', 'constraint' => 39, null => false),
+          'download_os' => array('type' => 'VARCHAR', 'constraint' => 20, null => false),
+          'download_version' => array('type' => 'VARCHAR', 'constraint' => 10, null => false),
+          'download_date' => array('type' => 'TIMESTAMP')
+            
+        )
+        
+    );
 //    $this->dbforge->drop_table('blog');
 //
 //    $tables = array(
@@ -61,9 +74,9 @@ class Module_Download extends Module {
 //        ),
 //    );
 
-//    if (!$this->install_tables($tables)) {
-//      return false;
-//    }
+    if (!$this->install_tables($tables)) {
+      return false;
+    }
 
     $download_folder_setting = array(
 			'slug' => 'download_folder',
@@ -104,11 +117,13 @@ class Module_Download extends Module {
 
   public function uninstall() {
     $this->db->delete('settings', array('module' => 'download'));
+    $this->dbforge->drop_table('download_stats');
+    
     return TRUE;
   }
 
   public function upgrade($old_version) {
-    return true;
+    return false;
   }
 
 }
