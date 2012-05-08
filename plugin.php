@@ -37,6 +37,8 @@ class Plugin_Download extends Plugin {
       }
     }
 
+    // sort descending because we want "windows" to be the first
+    arsort($result);
 
     return $result;
   }
